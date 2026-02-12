@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const blogSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'Locus Amoenus Blog',
+  url: 'https://locusamoenus.com/blog/',
+  description: 'Research and product notes on immersive memory design and virtual reality presence.'
+};
+---
+
+<BaseLayout
+  title="Locus Amoenus Blog | Research on VR Memory Design"
+  description="Read the latest Locus Amoenus articles on immersive memory design, VR presence, and ethical digital remembrance."
+  canonicalPath="/blog/"
+>
+  <header class="site-header">
+    <a class="brand" href="/">
+      <span class="brand-mark"></span>
+      <span>Locus Amoenus</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-list">
+        <li><a href="/">Home</a></li>
+        <li><a href="/#waitlist">Waitlist</a></li>
+        <li><a class="is-active" href="/blog/">Blog</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="blog-main">
+    <section class="section blog-hero">
+      <p class="eyebrow">Research & Product Notes</p>
+      <h1>Building thoughtful virtual places for memory and connection.</h1>
+      <p class="lead">
+        These articles share design decisions, early experiments, and practical lessons from developing Locus Amoenus.
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Recent Articles</h2>
+        <a class="text-link" href="/rss.xml">RSS feed</a>
+      </div>
+      <div class="post-list">
+        {
+          posts.map((post) => (
+            <a class="post-card" href={`/blog/${post.slug}/`}>
+              <p class="post-meta">
+                {post.data.pubDate.toLocaleDateString('en-US', {
+                  month: 'long',
+                  day: '2-digit',
+                  year: 'numeric'
+                })}
+              </p>
+              <h3 class="post-title">{post.data.title}</h3>
+              <p class="post-desc">{post.data.description}</p>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span data-year></span> Locus Amoenus</p>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/#waitlist">Waitlist</a>
+    </div>
+  </footer>
+
+  <script type="application/ld+json" set:html={JSON.stringify(blogSchema)}></script>
+  <script src="/app.js" defer></script>
+</BaseLayout>
