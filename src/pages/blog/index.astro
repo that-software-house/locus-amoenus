@@ -76,6 +76,6 @@ const blogSchema = {
     </div>
   </footer>
 
-  <script type="application/ld+json" set:html={JSON.stringify(blogSchema)}></script>
-  <script src="/app.js" defer></script>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(blogSchema)}></script>
+  <script is:inline src="/app.js" defer></script>
 </BaseLayout>

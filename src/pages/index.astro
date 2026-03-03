@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { SplineSceneBasic } from '@/components/ui/demo';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -61,10 +62,6 @@ const faqSchema = {
   canonicalPath="/"
 >
   <a class="skip-link" href="#content">Skip to content</a>
-  <video class="bg-video" autoplay muted loop playsinline poster="/og-cover.png" aria-hidden="true">
-    <source src="/bg_video.mp4" type="video/mp4" />
-  </video>
-  <div class="bg-overlay" aria-hidden="true"></div>
   <div class="bg-grid" aria-hidden="true"></div>
 
   <header class="site-header">
@@ -85,15 +82,22 @@ const faqSchema = {
 
   <main id="content">
     <section id="top" class="hero">
-      <p class="eyebrow reveal">Immersive Memory Spaces</p>
-      <h1 class="reveal">A calm digital place to revisit stories, voices, and moments that matter.</h1>
-      <p class="lead reveal">
-        Locus Amoenus turns memory into guided, cinematic VR environments designed for reflection and meaningful
-        connection.
-      </p>
-      <div class="cta-row reveal">
-        <a class="btn btn-primary" href="#waitlist">Join The Waitlist</a>
-        <a class="btn btn-ghost" href="/blog/">Read Research Blog</a>
+      <div class="hero-inner">
+        <div class="hero-text">
+          <p class="eyebrow reveal">Immersive Memory Spaces</p>
+          <h1 class="reveal">A calm digital place to revisit stories, voices, and moments that matter.</h1>
+          <p class="lead reveal">
+            Locus Amoenus turns memory into guided, cinematic VR environments designed for reflection and meaningful
+            connection.
+          </p>
+          <div class="cta-row reveal">
+            <a class="btn btn-primary" href="#waitlist">Join The Waitlist</a>
+            <a class="btn btn-ghost" href="/blog/">Read Research Blog</a>
+          </div>
+        </div>
+        <div class="hero-demo reveal">
+          <SplineSceneBasic client:visible />
+        </div>
       </div>
     </section>
 
@@ -227,8 +231,8 @@ const faqSchema = {
     </div>
   </footer>
 
-  <script type="application/ld+json" set:html={JSON.stringify(orgSchema)}></script>
-  <script type="application/ld+json" set:html={JSON.stringify(siteSchema)}></script>
-  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
-  <script src="/app.js" defer></script>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(orgSchema)}></script>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(siteSchema)}></script>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+  <script is:inline src="/app.js" defer></script>
 </BaseLayout>
